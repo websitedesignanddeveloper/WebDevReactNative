@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,BackHandler,Alert
-} from 'react-native';
-import { Container, Card, List, ListItem, Thumbnail, Text, Button, Header, Content, Left, Body, Right } from "native-base";
-import IconNew1 from 'react-native-vector-icons/dist/Fontisto';
+import { Dimensions, StyleSheet, View, Image, FlatList, TouchableOpacity, BackHandler, Alert } from 'react-native';
+import { Container, Card, Text, Header, Content, Left, Body, Right } from "native-base";
+import FontistoIcon from 'react-native-vector-icons/dist/Fontisto';
 import ImageSlider from 'react-native-image-slider';
+import CardComponent from "../Components/CardComponent";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-import Footer from "../Components/Footer";
+import MenuFooter from "../Components/MenuFooter";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props)
@@ -43,16 +37,11 @@ export default class HomeScreen extends Component {
         {},
         {},
       ]
-
     };
   }
   async componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
-  componentWillUnmount() {
-   
-  }
-
   handleBackButton = () => {
     Alert.alert(
       '',
@@ -70,7 +59,6 @@ export default class HomeScreen extends Component {
     );
     return true;
   }
-
   render() {
     const images = [
       'https://placeimg.com/640/640/nature',
@@ -81,10 +69,8 @@ export default class HomeScreen extends Component {
 
     return (
       <Container>
-
         <Header style={styles.headerStyle}>
           <Left style={styles.left}>
-            {/* <IconNew name="chevron-left" size={30} color="#707070" onPress={()=>this.props.navigation.navigate('DrawerOpen')} /> */}
           </Left>
           <Body style={styles.headerTitle}>
             <Image
@@ -94,7 +80,7 @@ export default class HomeScreen extends Component {
             />
           </Body>
           <Right style={styles.right}>
-            <IconNew1 name="search" size={25} color="#707070" />
+            <FontistoIcon name="search" size={20} color="#707070" onPress={()=>this.props.navigation.navigate("SearchScreen")}/>
           </Right>
         </Header>
         <Content>
@@ -110,7 +96,6 @@ export default class HomeScreen extends Component {
             />
           </View>
           <View style={{ paddingHorizontal: 10, marginTop: 10 }}>
-
             <Card style={styles.cardStyle}>
               <FlatList
                 horizontal
@@ -130,32 +115,18 @@ export default class HomeScreen extends Component {
                 keyExtractor={(item) => item.id}
               />
             </Card>
-
             <FlatList
-              style={{ alignSelf: 'center', marginBottom: 30 }}
+              style={{ marginBottom: 30 }}
               numColumns={2}
               data={this.state.FactionList}
               renderItem={({ item }) =>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('SellingScreen')}>
-                  <Card style={styles.cardListStyle}>
-                    <Image
-                      resizeMode='contain'
-                      style={styles.imageStyle}
-                      source={require('../Images/Fashion.png')}
-                    />
-                    <View style={styles.viewStyle}>
-                      <Text style={styles.titleStyle}>Cashmere Tank + Bag</Text>
-                      <Text style={styles.subTitleStyle}>$30.00 - $98.00</Text>
-                    </View>
-                  </Card>
-                </TouchableOpacity>
+                                <CardComponent  onPress={() => this.props.navigation.navigate("SellingScreen")}/>
               }
               keyExtractor={(item) => item.id}
             />
           </View>
-
         </Content>
-        <Footer/>
+        <MenuFooter onPress={() => this.props.navigation.navigate("DrawerOpen")} />
       </Container>
     );
   }
@@ -169,8 +140,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   headerImageStyle: {
-    width: width / 5,
-    height: width / 5
+    width: width / 6,
+    height: width / 6
   },
   headerTitle: {
 
@@ -178,18 +149,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 2
   },
-  imageStyle:
-  {
-    width: width / 7,
-    height: height / 7
-  },
   right: {
     flex: 1
   },
   container: {
     height: width / 2
   },
-
+  imageStyle:
+  {
+    width: width / 7,
+    height: height / 7
+  },
   customImage: {
     width: width,
     height: width / 2,
@@ -200,48 +170,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F3F3',
     padding: 10
   },
-  cardListStyle: {
-    width: width / 2.3,
-    borderRadius: 5,
-    marginLeft: 10,
-    backgroundColor: '#F3F3F3',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.60,
-    shadowRadius: 4.65,
-    elevation: 8,
-  },
   circleImageStyle: {
     width: width / 5, height: width / 6,
     // borderRadius: width/3,borderWidth:2,
-
   },
   imageTextStyle: {
     textAlign: 'center',
-    fontSize: width / 28,
+    marginTop: 5,
+    fontSize: width / 35,
     fontWeight: '700',
     color: '#000'
+  },
 
-  },
-  viewStyle: {
-    paddingVertical: 20
-  },
-  imageStyle: {
-    width: width / 2.5,
-    height: width / 2.5,
-  },
-  titleStyle: {
-    fontSize: width / 30,
-    fontWeight: 'bold',
-    color: '#707070',
-    marginLeft: 10,
-  },
-  subTitleStyle: {
-    fontSize: width / 35,
-    color: '#707070',
-    marginLeft: 10,
-  },
 });

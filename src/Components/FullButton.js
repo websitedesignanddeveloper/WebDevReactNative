@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
      alignSelf: 'stretch',
     //  borderRadius: 5,
      elevation:5,
-     marginBottom:10
+    
     },
   text: {
     alignSelf: 'center',
