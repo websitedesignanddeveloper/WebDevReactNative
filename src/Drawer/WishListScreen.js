@@ -1,17 +1,16 @@
-import React from "react";
-import { Dimensions, Image, StyleSheet, BackHandler,FlatList, Alert, AppState, } from "react-native";
-import { Container, Card,List, ListItem, Thumbnail, Text, Button,Header,Content,Left,Body,Right } from "native-base";
-import IconNew from 'react-native-vector-icons/dist/Entypo';
-import IconNew1 from 'react-native-vector-icons/dist/Fontisto';
+import React, { Component } from 'react';
+import { Dimensions, StyleSheet, View, Image, FlatList, TouchableOpacity, BackHandler, Alert } from 'react-native';
+import { Container, Card, Text, Header, Content, Left, Body, Right } from "native-base";
+import FontistoIcon from 'react-native-vector-icons/dist/Fontisto';
+import EntypoIcon from 'react-native-vector-icons/dist/Entypo';
+import WishListItem from "../Components/WishListItem";
 const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 
-export default class WishListScreen extends React.Component {
-  static appIsActive = true;
+export default class HomeScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      WishList:[
+      FactionList: [
         {},
         {},
         {},
@@ -19,146 +18,74 @@ export default class WishListScreen extends React.Component {
         {},
         {},
       ]
-
     };
   }
-
   async componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
-
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-  }
-
   handleBackButton = () => {
-    Alert.alert(
-      '',
-      'Are you sure you want to exit this App? ', [{
-        text: 'No',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel'
-      }, {
-        text: 'Yes',
-        onPress: () => BackHandler.exitApp()
-      },
-    ], {
-      cancelable: false
-    }
-    );
+    this.props.navigation.navigate("SellingScreen")
     return true;
   }
-
   render() {
+    const images = [
+      'https://placeimg.com/640/640/nature',
+      'https://placeimg.com/640/640/people',
+      'https://placeimg.com/640/640/animals',
+      'https://placeimg.com/640/640/beer',
+    ];
+
     return (
       <Container>
         <Header style={styles.headerStyle}>
           <Left style={styles.left}>
-          <IconNew name="chevron-left" size={30} color="#707070" />
+            <EntypoIcon name="chevron-left" size={30} color="#707070" onPress={() => this.props.navigation.navigate("SellingScreen")} />
           </Left>
           <Body style={styles.headerTitle}>
-            <Text style={styles.headerText}>SELECT YOUR ITEM</Text>
+            <Image
+              resizeMode='contain'
+              style={styles.headerImageStyle}
+              source={require('../Images/Goya.png')}
+            />
           </Body>
           <Right style={styles.right}>
-          <IconNew1 name="search" size={25} color="#707070" />
-
+            <FontistoIcon name="search" size={20} color="#707070" onPress={() => this.props.navigation.navigate("SearchScreen")} />
           </Right>
         </Header>
-        <Content style={styles.containerStyle}>
-        
-         <Text style={styles.textStyle}>BEST SELLING</Text>
-        <FlatList
-          style={{alignSelf:'center',marginBottom:30}}
-          numColumns={2}
-          data={this.state.WishList}
-          renderItem={({item}) =>  
-        
-        <Card style={styles.cardStyle}>
-          <Left>
-              {/* <Image
-            resizeMode='contain'
-            style={styles.imageStyle}
-            source={require('./src/Images/Fashion2.jpg')}
-          /> */}
-              </Left>
-              <Body>
-                <Text>Sankhadeep</Text>
-                <Text note numberOfLines={1}>Its time to build a difference . .</Text>
-              </Body>
-              <Right>
-                <Button transparent>
-                  <Text>View</Text>
-                </Button>
-              </Right>
-        </Card>
-          }
-        keyExtractor={(item) => item.id}
-        /> 
+        <Content>
+          <Text style={{ color: '#000', padding: 10, fontWeight: 'bold', fontSize: width / 22 }}>My wishlist on Goya Fashion</Text>
+          <FlatList
+            data={this.state.FactionList}
+            style={{ padding: 10 }}
+            renderItem={({ item }) =>
+              <WishListItem />
+            }
+            keyExtractor={(item) => item.id}
+          />
         </Content>
       </Container>
     );
   }
 }
 
-
 const styles = StyleSheet.create({
-  containerStyle: {
-    paddingHorizontal: 20,
+  headerStyle: {
+    backgroundColor: '#fff'
   },
-  headerStyle:{
-  backgroundColor:'#fff'
+  left: {
+    flex: 1
   },
-  left:{
-    flex:1
+  headerImageStyle: {
+    width: width / 6,
+    height: width / 6
   },
-  headerTitle:{
-    flex:2
-  },
-  headerText:{
-    fontSize: width / 25,
-    color:'#707070',
-    alignSelf:'center'
-  },
-  right:{
-    flex:1
-  },
-  textStyle: {
-    fontSize: width / 25,
-    fontWeight: 'bold',
-    color: '#000',
-    paddingVertical:10,
-    marginLeft: 10,
-  },
-  titleStyle: {
-    fontSize: width / 30,
-    fontWeight: 'bold',
-    color: '#707070',
-    marginLeft: 10,
-  },
-  subTitleStyle: {
-    fontSize: width / 35,
-    color: '#707070',
-    marginLeft: 10,
-  },
-  cardStyle: {
-    width: width / 2.4,
-    borderRadius: 5,
-    marginLeft: 10,
-    shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 4,
-},
-shadowOpacity: 0.30,
-shadowRadius: 4.65,
+  headerTitle: {
 
-elevation: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flex: 2
   },
-  viewStyle: {
-    paddingVertical: 20
+  right: {
+    flex: 1
   },
-  imageStyle: {
-    width: width / 5,
-    height: width /5,
-  }
 });

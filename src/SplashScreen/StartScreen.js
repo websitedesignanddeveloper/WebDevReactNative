@@ -1,11 +1,11 @@
 import React from "react";
-import { Dimensions, TouchableOpacity,ImageBackground, StyleSheet, BackHandler, Image, Alert, AppState, } from "react-native";
+import { Dimensions, TouchableOpacity, ImageBackground, StyleSheet, BackHandler, Image, Alert, AppState, } from "react-native";
 import { View, Text } from 'native-base';
 import FeatherIcon from 'react-native-vector-icons/dist/Feather';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-export default class ShopScreen extends React.Component {
+export default class StartScreen extends React.Component {
   static appIsActive = true;
   constructor(props) {
     super(props)
@@ -33,20 +33,7 @@ export default class ShopScreen extends React.Component {
   }
 
   handleBackButton = () => {
-    Alert.alert(
-      '',
-      'Are you sure you want to exit this App? ', [{
-        text: 'No',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel'
-      }, {
-        text: 'Yes',
-        onPress: () => BackHandler.exitApp()
-      },
-    ], {
-      cancelable: false
-    }
-    );
+    this.props.navigation.navigate("SplashScreen")
     return true;
   }
 
@@ -65,9 +52,21 @@ export default class ShopScreen extends React.Component {
             />
             <Text style={styles.logoTextStyle}>Fastion Way</Text>
           </View>
-          <TouchableOpacity style={{ marginTop: (width / 2), alignSelf: 'flex-end' ,flexDirection:'row',marginRight:5}} onPress={() => this.props.navigation.navigate("StartScreen")} >
-            <Text uppercase={true} style={{ color: '#FFF' }}>start shopping </Text>
-            <FeatherIcon name="arrow-right" size={20} color="#FFFFFF" />
+          <View style={{ flexDirection: 'row', marginTop: 20 }}>
+            <Image
+              resizeMode='contain'
+              style={styles.startImageStyle}
+              source={require('../Images/Start.png')}
+            />
+            <View style={styles.textSectionStyle}>
+              <Text style={{ fontSize: width / 13, fontWeight: 'bold', color: '#FFF' }}>Let’s start!</Text>
+              <Text style={{ color: '#FFF', marginTop: 5 }}>Continuing you agrreing to the term of use and privacy policy</Text>
+
+            </View>
+          </View>
+          <TouchableOpacity style={styles.footerSection} onPress={() => this.props.navigation.navigate("SignInScreen")} >
+            <Text uppercase={true} style={{ color: '#FFF'}} onPress={()=>this.props.navigation.navigate("SignInScreen")}>Skip</Text>
+            <FeatherIcon name="chevron-right" size={20} color="#FFFFFF" onPress={()=>  this.props.navigation.navigate("SignInScreen")}/>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -85,11 +84,9 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: '#612CB2',
     opacity: 0.6,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   viewStyle: {
-    marginTop: (width / 2),
+
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center'
@@ -107,4 +104,21 @@ const styles = StyleSheet.create({
     height: height / 3,
     marginTop: 30
   },
+  startImageStyle:{
+    width: width / 1.5,
+    height: width / 1.5,
+     marginTop: -40
+  },
+  textSectionStyle:{
+    marginLeft: -(width / 3.5), 
+    marginTop: 65,
+    width: width / 2 
+  },
+  footerSection:{
+    justifyContent: 'space-between', 
+    paddingHorizontal: 20,
+     marginTop: (width / 2.2), 
+     flexDirection: 'row',
+      marginRight: 5
+  }
 });

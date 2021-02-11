@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, View, Image, FlatList, TouchableOpacity, BackHandler, Alert } from 'react-native';
-import { Container, Card, Text, Header, Content, Left, Body, Right } from "native-base";
+import { Dimensions, StyleSheet, View, Image, FlatList, TouchableOpacity, BackHandler, Alert, ImageBackground } from 'react-native';
+import { Container, Card, Text, Header, Content, Left, Body, Right, Input, Item, Button } from "native-base";
 import FontistoIcon from 'react-native-vector-icons/dist/Fontisto';
+import AntDesignIcon from 'react-native-vector-icons/dist/AntDesign';
 import ImageSlider from 'react-native-image-slider';
 import CardComponent from "../Components/CardComponent";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 import MenuFooter from "../Components/MenuFooter";
+import Modal from 'react-native-modal';
+
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props)
@@ -36,7 +39,8 @@ export default class HomeScreen extends Component {
         {},
         {},
         {},
-      ]
+      ],
+      offerModal: true
     };
   }
   async componentDidMount() {
@@ -80,7 +84,7 @@ export default class HomeScreen extends Component {
             />
           </Body>
           <Right style={styles.right}>
-            <FontistoIcon name="search" size={20} color="#707070" onPress={()=>this.props.navigation.navigate("SearchScreen")}/>
+            <FontistoIcon name="search" size={20} color="#707070" onPress={() => this.props.navigation.navigate("SearchScreen")} />
           </Right>
         </Header>
         <Content>
@@ -120,13 +124,35 @@ export default class HomeScreen extends Component {
               numColumns={2}
               data={this.state.FactionList}
               renderItem={({ item }) =>
-                                <CardComponent  onPress={() => this.props.navigation.navigate("SellingScreen")}/>
+                <CardComponent onPress={() => this.props.navigation.navigate("SellingScreen")} />
               }
               keyExtractor={(item) => item.id}
             />
           </View>
         </Content>
         <MenuFooter onPress={() => this.props.navigation.navigate("DrawerOpen")} />
+        <Modal isVisible={this.state.offerModal} onBackdropPress={() => { this.setState({ offerModal: false }) }}>
+          <ImageBackground style={styles.backgroundImageStyle}
+            resizeMode='contain'
+            source={require('../Images/Modal.png')}>
+            <View style={styles.viewStyle}>
+              <Text style={{ fontSize: width / 25, color: '#000', fontWeight: 'bold' }}>Sign up now & get</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: width / 15 }}>50%</Text>
+                <Text style={{ fontWeight: 'bold' }}>off</Text>
+              </View>
+              <Item regular style={styles.itemStyle}>
+                <Input placeholder='Your email address' placeholderTextColor="#C4C4C4" style={{ color: '#C4C4C4', fontSize: width / 35 }} />
+              </Item>
+              <Button style={styles.buttonStyle}>
+                <Text uppercase={false}>Sign up</Text>
+              </Button>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <AntDesignIcon name="closecircle" size={20} color="#000" style={{ alignSelf: 'flex-end', marginTop: -(width / 3), marginRight: 10 }} onPress={() => this.setState({ offerModal: false })} />
+            </View>
+          </ImageBackground>
+        </Modal>
       </Container>
     );
   }
@@ -181,5 +207,33 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#000'
   },
-
+  itemStyle: {
+    marginTop: 5,
+    height: height / 20,
+    width: width / 2.5,
+    backgroundColor: '#FFF',
+    borderWidth: 3,
+    borderRadius: 5,
+    borderColor: '#FFFFFF'
+  },
+  backgroundImageStyle: {
+    flex: 1,
+    width: null,
+    height: null,
+    flexDirection: 'row',
+  },
+  viewStyle: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center'
+  },
+  buttonStyle: {
+    width: width / 4,
+    height: width / 12,
+    backgroundColor: '#000',
+    borderRadius: 5,
+    alignSelf: 'center',
+    marginTop: 8,
+    justifyContent: 'center'
+  }
 });

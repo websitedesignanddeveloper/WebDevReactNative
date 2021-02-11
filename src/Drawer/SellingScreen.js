@@ -1,14 +1,14 @@
-import React from "react";
-import { Dimensions, Image, StyleSheet, BackHandler, FlatList, TouchableOpacity, AppState, } from "react-native";
-import { Container, Card, View, ListItem, Thumbnail, Text, Button, Header, Content, Left, Body, Right } from "native-base";
-import IconNew from 'react-native-vector-icons/dist/Entypo';
-import IconNew1 from 'react-native-vector-icons/dist/Fontisto';
+import React, { Component } from 'react';
+import { Dimensions,StyleSheet, BackHandler, FlatList,AppState, } from "react-native";
+import { Container,Text,  Header, Content, Left, Body, Right } from "native-base";
+import EntypoIcon from 'react-native-vector-icons/dist/Entypo';
+import FontistoIcon from 'react-native-vector-icons/dist/Fontisto';
 import MenuFooter from "../Components/MenuFooter";
 import CardComponent from "../Components/CardComponent";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-export default class SellingScreen extends React.Component {
+export default class SellingScreen extends Component {
   static appIsActive = true;
   constructor(props) {
     super(props)
@@ -43,13 +43,14 @@ export default class SellingScreen extends React.Component {
       <Container>
         <Header style={styles.headerStyle}>
           <Left style={styles.left}>
-            <IconNew name="chevron-left" size={30} color="#707070" onPress={() => this.props.navigation.navigate("HomeScreen")} />
+            <EntypoIcon name="chevron-left" size={30} color="#707070" onPress={() => this.props.navigation.navigate("HomeScreen")} />
           </Left>
           <Body style={styles.headerTitle}>
             <Text style={styles.headerText}>SELECT YOUR ITEM</Text>
           </Body>
           <Right style={styles.right}>
-            <IconNew1 name="search" size={20} color="#707070" />
+            <FontistoIcon name="search" size={20} color="#707070" onPress={()=>this.props.navigation.navigate("SearchScreen")}/>
+            <FontistoIcon name="heart" size={20} color="red" style={{marginLeft:10}} onPress={()=>this.props.navigation.navigate("WishListScreen")}/>
           </Right>
         </Header>
         <Content style={styles.containerStyle}>
@@ -66,8 +67,6 @@ export default class SellingScreen extends React.Component {
             keyExtractor={(item) => item.id}
           />
         </Content>
-        <MenuFooter onPress={() => this.props.navigation.navigate("DrawerOpen")} />
-
       </Container>
     );
   }

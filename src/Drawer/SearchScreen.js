@@ -43,7 +43,7 @@ export default class SearchScreen extends React.Component {
             <Container>
 
                 <Content style={styles.containerStyle}>
-                    <AntDesignIcon name="closecircle" size={30} color="#958D8D" style={styles.closeIconStyle} />
+                    <AntDesignIcon name="closecircle" size={30} color="#958D8D" style={styles.closeIconStyle} onPress={()=>this.props.navigation.goBack(null)}/>
                     <View style={styles.viewStyle}>
                         <Input placeholder='Search products…' placeholderTextColor='#CDCDCD' style={{ marginLeft: 10 }} />
                         <FontistoIcon name="search" size={20} color="#707070" style={{ paddingHorizontal: 10 }} />

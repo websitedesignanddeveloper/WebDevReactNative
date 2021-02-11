@@ -55,7 +55,7 @@ export default class SellingScreen extends React.Component {
             <Text style={styles.headerText}>POLKA JACKET</Text>
           </Body>
           <Right style={styles.right}>
-            <FontistoIcon name="search" size={20} color="#707070" />
+            <FontistoIcon name="search" size={20} color="#707070" onPress={()=>this.props.navigation.navigate("SearchScreen")}/>
             <Ionicons name="md-cart-outline" size={22} color="#707070" />
           </Right>
         </Header>
@@ -103,7 +103,7 @@ export default class SellingScreen extends React.Component {
             keyExtractor={(item) => item.id}
           />
         </Content>
-       <CardFooter/>
+       <CardFooter onPress={()=>this.props.navigation.navigate("AddToCardScreen")}/>
       </Container>
     );
   }
